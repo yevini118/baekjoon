@@ -11,6 +11,3 @@ for i in range(4, 11):
 for t in range(T):
     n = int(input())
     print(dp[n])
-
-
-    
