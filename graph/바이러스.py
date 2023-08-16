@@ -1,36 +1,41 @@
+import sys
 from collections import deque
 
+#input
 n = int(input())
 m = int(input())
-pairs = {i:[] for i in range(1, n+1)}
+computer = [list(map(int, sys.stdin.readline().split())) for _ in range(m)]
 
-for i in range(m):
-    a,b = map(int, input().split())
-    pairs[a].append(b)
-    pairs[b].append(a)
+#방문확인
+visit = [0] * (n+1)
+visit[1] = 1
 
-#dfs
-visit_dfs = [0] * (n+1)
-def dfs(node):
-    visit_dfs[node] = 1
-    for p in pairs[node]:
-        if visit_dfs[p] == 0:
-            dfs(p)
+#양방향 그래프 생성
+graph = {i : [] for i in range(1, n+1)}
+for a, b in computer:
+    graph[a].append(b)
+    graph[b].append(a)
 
-dfs(1)
-print(sum(visit_dfs) - 1)
-
-#bfs
-visit_bfs = [0] * (n+1)
-visit_bfs[1] = 1
+#BFS
 def bfs():
-    queue = deque([1])
-    while queue:
-        c = queue.popleft()
-        for p in pairs[c]:
-            if visit_bfs[p] == 0:
-                queue.append(p)
-                visit_bfs[p] = 1
+    Q = deque([1])
 
-bfs()
-print(sum(visit_bfs) - 1)
+    while(Q):
+        node = Q.popleft()
+        for n in graph[node]:
+            if visit[n] == 0:
+                visit[n] = 1
+                Q.append(n)
+
+#DFS
+def dfs(node):
+    
+    visit[node] = 1
+    for n in graph[node]:
+        if visit[n] == 0:
+            dfs(n)
+
+# bfs()
+dfs(1)
+print(sum(visit)-1)
+                
