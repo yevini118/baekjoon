@@ -1,0 +1,46 @@
+import sys
+from collections import deque
+
+N, M, V = map(int, input().split())
+edge = [list(map(int, sys.stdin.readline().split())) for _ in range(M)]
+
+#양방향 그래프 생성
+graph = {i : [] for i in range(1, N+1)}
+for a, b in edge:
+    graph[a].append(b)
+    graph[b].append(a)
+
+for g in graph:
+    graph[g].sort()
+
+#방문 확인
+visit_bfs = [False] * (N+1)
+visit_bfs[V] = True
+
+visit_dfs = [False] * (N+1)
+visit_dfs[V] = True
+
+#BFS
+def bfs(V):
+
+    Q = deque([V])
+    while(Q):
+        node = Q.popleft()
+        print(node, end=" ")
+        for n in graph[node]:
+            if not visit_bfs[n]:
+                visit_bfs[n] = True
+                Q.append(n)
+
+#DFS
+def dfs(node):
+
+    print(node, end=" ")
+    for n in graph[node]:
+        if not visit_dfs[n]:
+            visit_dfs[n] = True
+            dfs(n)
+
+dfs(V)
+print()
+bfs(V)

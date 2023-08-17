@@ -1,30 +1,29 @@
 from collections import deque
 
-N , M= map(int, input().split())
+#input
+N, M = map(int, input().split())
+maze = [list(map(int, list(input()))) for _ in range(N)]
 
-maze = []
-for i in range(N):
-    maze.append(input())
+#방향설정
+direction = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-direction = [[0, -1],[0, 1], [-1, 0],[1, 0]]
+#BFS
+def bfs():
 
-#bfs
-Q = deque([(0,0)])
-visit = [[0]*M for i in range(N)]
-visit[0][0] = 1
+    Q = deque([(0, 0)])
+    while(Q):
 
-while(Q):
-    x, y = Q.popleft()
+        x, y = Q.popleft()
 
-    for d in direction:
-        nx, ny = x + d[0], y + d[1]
-        if nx < 0 or nx >= N or ny < 0 or ny >= M :
-            continue
-        
-        if maze[nx][ny] == '1' and visit[nx][ny] == 0:
-                visit[nx][ny] = visit[x][y] + 1
-                Q.append((nx, ny))
+        #상하좌우
+        for a, b in direction:
+            nx, ny = x + a, y + b
+            if 0 <= nx < N and 0 <= ny < M:
+                if maze[nx][ny] == 1:
+                    maze[nx][ny] = maze[x][y] + 1
+                    Q.append((nx, ny))
 
-print(visit[N-1][M-1])
-        
+        maze[0][0] = 0
 
+bfs()
+print(maze[N-1][M-1])   
