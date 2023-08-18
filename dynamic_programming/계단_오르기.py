@@ -1,15 +1,15 @@
-n = int(input())
+#input
+N = int(input())
+stair = [0, 0] + [int(input()) for _ in range(N)]
 
-stairs = [0]
-for i in range(n):
-    stairs.append(int(input()))
+#최고점수 memory
+score = stair[:3]
 
-score = [0] * (n+1)
-score[1] = stairs[1]
+def dp():
 
-if n>1:
-    score[2] = stairs[1] + stairs[2]
-    for i in range(3, n+1):
-        score[i] = max(score[i-2], stairs[i-1] + score[i-3]) + stairs[i]
+    #점화식 : i의 최고점수 = i점수 + max(i-2의 최고점수 , i-3의 최고점수 + i-2점수) 
+    for i in range(3, N+2):
+        score.append(stair[i] + max(score[i-2], score[i-3] + stair[i-1]))
 
+dp()
 print(score[-1])
