@@ -35,7 +35,7 @@ def dfs(node):
         if visit[n] == 0:
             dfs(n)
 
-# bfs()
-dfs(1)
+bfs()
+# dfs(1)
 print(sum(visit)-1)
                 

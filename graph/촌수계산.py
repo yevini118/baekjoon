@@ -23,14 +23,10 @@ def bfs(a):
     Q = deque([a])
     while(Q):
         node = Q.popleft()
-        print(node)
         for n in graph[node]:
             if visit[n] == -1:
                 Q.append(n)
                 visit[n] = visit[node] + 1
-
-                # if n == b:
-                #     break
 
 #DFS
 def dfs(node):
