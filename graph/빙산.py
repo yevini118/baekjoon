@@ -1,42 +1,63 @@
 import sys
 from collections import deque
 
+#input
 N, M = map(int, input().split())
 sea = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
 
-def bfs():
 
-    Q = deque()
+def bfs(n, m):
 
-def next_year():
+    Q = deque([(n,m)])
+    visit[n][m] = True
+    
+    while(Q):
 
-    new_sea = [[0] * M for _ in range(N)]
-    direction = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        n, m = Q.popleft()
 
-    for n in range(N):
-        for m in range(M):
-            count = 0
-            if sea[n][m] != 0:
-                for a, b in direction:
-                    nn, nm = n+a, m+b
-                    if 0<=nn<N and 0<=nm<M:
-                        if sea[nn][nm] == 0:
-                            count += 1
-            if sea[n][m] - count > 0 :
-                new_sea[n][m] = sea[n][m] - count
-            else:
-                new_sea[n][m] = 0
+        for a, b in direction:
+            nn, nm = n+a, m+b
 
-    return new_sea
+            if not visit[nn][nm]:
+                if sea[nn][nm] == 0 and sea[n][m] > 0:
+                    sea[n][m] -= 1
+
+                if sea[nn][nm] != 0:
+                    Q.append((nn, nm))
+                    visit[nn][nm] = True
+
+        #빙하가 다 녹으면
+        if sea[n][m] == 0:
+            ice.remove((n, m))
+
+
+#상하좌우
+direction = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+#빙하 좌표 
+ice = set()
+for n in range(N):
+    for m in range(M):
+        if sea[n][m] > 0:
+            ice.add((n, m))
 
 year = 0
 while(True):
 
-    sea = next_year()
-    year += 1
+    visit = [[False] * M for _ in range(N)]
+    area = 0
+    ice_copy = ice.copy()
 
-    for s in sea:
-        print(s)
+    for n, m in ice_copy:
+        if sea[n][m] != 0 and not visit[n][m]:
+            bfs(n, m)
+            area += 1
 
-    if year == 2:
+    if area >= 2:
+        print(year)
         break
+    if area == 0:
+        print(0)
+        break
+
+    year += 1

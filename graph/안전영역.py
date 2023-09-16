@@ -23,7 +23,6 @@ def bfs(node, rain):
 
 import time
 
-start = time.time()
 areas = [0]
 for rain in range(0, 101):
 
@@ -39,4 +38,3 @@ for rain in range(0, 101):
 end = time.time()
 
 print(max(areas))
-print(end - start)
