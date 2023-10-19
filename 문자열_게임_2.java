@@ -19,7 +19,7 @@ public class 문자열_게임_2 {
             solution();
         }
     }
-    
+
     private static void solution() {
 
         int answer3 = Integer.MAX_VALUE;
